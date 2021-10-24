@@ -16,4 +16,20 @@ public class User {
 		this.age = age;
 		this.password = password;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public byte[] getPassword() {
+		return password;
+	}
 }

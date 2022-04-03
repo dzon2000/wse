@@ -7,6 +7,6 @@
     <title>Car Rental</title>
   </head>
   <body>
-    <h2><s:property value="greet.message" /></h2>
+    <h2>ERROR!</h2>
   </body>
 </html>

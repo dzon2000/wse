@@ -16,14 +16,23 @@ import org.apache.struts2.convention.annotation.Result;
 public class GreetAction extends ActionSupport {
 
 	private Greet greet;
+	private String message;
 
 	public String execute() {
-		greet = new Greet("Hello World!");
+		greet = new Greet("Hello " + message);
 
 		return SUCCESS;
 	}
 
 	public Greet getGreet() {
 		return greet;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

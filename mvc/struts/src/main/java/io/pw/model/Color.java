@@ -4,8 +4,8 @@ package io.pw.model;
  * Created by pwykowski
  */
 public enum Color {
-	RED("#FF0000"), GREEN("#00FF00"),
-	BLUE("#0000FF");
+	RED("#FF0000"), DARK_GRAY("#404040"),
+	WHITE("#000000");
 
 	private String color;
 

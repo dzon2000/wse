@@ -11,14 +11,16 @@ public class Car {
 	private int numOfSeats;
 	private Color color;
 	private float price;
+	private String imgPath;
 
-	public Car(Brand brand, String model, float engine, int numOfSeats, Color color, float price) {
+	public Car(Brand brand, String model, float engine, int numOfSeats, Color color, float price, String imgPath) {
 		this.brand = brand;
 		this.model = model;
 		this.engine = engine;
 		this.numOfSeats = numOfSeats;
 		this.color = color;
 		this.price = price;
+		this.imgPath = imgPath;
 	}
 
 	public Brand getBrand() {
@@ -68,4 +70,13 @@ public class Car {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+
 }

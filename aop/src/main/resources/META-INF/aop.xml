@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="io.pw.aspect.AccountAspect"/>
+    </aspects>
+    <weaver options="-verbose -showWeaveInfo">
+        <include within="io.pw.aspect.*"/>
+    </weaver>
+</aspectj>

@@ -1,18 +1,20 @@
 package io.pw.response;
 
+import io.pw.db.ProductRepository;
+import io.pw.db.Repository;
+import io.pw.db.entity.Product;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-import static io.pw.WebServer.PRODUCTS;
 
 public class StoreNewProductHandler implements ResponseHandler {
 
-    private InputStream requestBody;
+    private final InputStream requestBody;
+    private final Repository<Product> repository = new ProductRepository();
+
     public StoreNewProductHandler(InputStream requestBody) {
         this.requestBody = requestBody;
     }
@@ -27,7 +29,13 @@ public class StoreNewProductHandler implements ResponseHandler {
                 String[] paramAndValue = param.split("=");
                 newProduct.put(paramAndValue[0], paramAndValue[1]);
             }
-            PRODUCTS.put(newProduct);
+            Product product = new Product(
+                    newProduct.getString("name"),
+                    newProduct.getString("desc"),
+                    newProduct.getString("serial"),
+                    newProduct.getInt("qty")
+            );
+            repository.store(product);
             return new byte[0];
         } catch (IOException ex) {
             throw new RuntimeException(ex);

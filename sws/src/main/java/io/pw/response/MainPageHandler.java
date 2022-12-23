@@ -1,15 +1,20 @@
 package io.pw.response;
 
 import io.pw.WebServer;
-import org.json.JSONObject;
+import io.pw.db.ProductRepository;
+import io.pw.db.Repository;
+import io.pw.db.entity.Product;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class MainPageHandler implements ResponseHandler {
 
-    private static String ROW_TEMPLATE = """
+    private final Repository<Product> repository = new ProductRepository();
+
+    private static final String ROW_TEMPLATE = """
                 <tr>
                     <td>$no</td>
                     <td>$name</td>
@@ -29,15 +34,16 @@ public class MainPageHandler implements ResponseHandler {
         }
     }
 
-    private static String translateToHTML() {
+    private String translateToHTML() {
         StringBuilder products = new StringBuilder();
-        for (int i = 0; i < WebServer.PRODUCTS.length(); i++) {
-            JSONObject product = WebServer.PRODUCTS.getJSONObject(i);
+        final List<Product> allProducts = repository.findAll();
+        for (int i = 0; i < allProducts.size(); i++) {
+            Product product = allProducts.get(i);
             String row = ROW_TEMPLATE.replace("$no", String.valueOf(i + 1))
-                    .replace("$name", product.getString("name"))
-                    .replace("$desc", product.getString("desc"))
-                    .replace("$serial", product.getString("serial"))
-                    .replace("$qty", String.valueOf(product.getInt("qty")));
+                    .replace("$name", product.getName())
+                    .replace("$desc", product.getDesc())
+                    .replace("$serial", product.getSerial())
+                    .replace("$qty", String.valueOf(product.getQty()));
             products.append(row);
         }
         return products.toString();

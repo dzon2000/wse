@@ -1,6 +1,7 @@
 package io.pw;
 
 import com.sun.net.httpserver.HttpServer;
+import io.pw.db.DBConnection;
 import io.pw.response.ResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,21 +21,10 @@ public class WebServer {
 
     // https://github.com/dzon2000/wse
 
-    public static JSONArray PRODUCTS = new JSONArray();
-
-    public static String CONTENT_ROOT = "sws/src/main/resources";
+    public static String CONTENT_ROOT = "src/main/resources";
 
     public static void main(String[] args) {
-        JSONObject product = new JSONObject("""
-                {
-                	"name": "Xbox",
-                	"desc": "This is the Xbox Series X",
-                	"serial": "1234-567",
-                	"qty": 100
-                }
-                """);
-        PRODUCTS.put(product);
-
+        DBConnection.setUpDB();
         try {
             final HttpServer httpServer = HttpServer.create(new InetSocketAddress(8000), 0);
 

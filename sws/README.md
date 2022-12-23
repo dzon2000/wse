@@ -89,6 +89,7 @@ Przechowuje rekordy zwrócone przez zapytanie SQL. Działa na zasadzie kursorów
 | ->  |               |                        |          |
 |     | Xbox          | This Xbox              | 123-4445 |
 |     | PlayStation 5 | This is PlayStation 5  | 441-5222 |
+
 Po wywołaniu `next()` kursor przenosi się do pierwszego wiersza, a przy każdym wywołaniu do następnego:
 
 |     | Column 1      | Column 2               | Column n |

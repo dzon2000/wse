@@ -3,6 +3,7 @@ package io.pw.response;
 import io.pw.db.ProductRepository;
 import io.pw.db.Repository;
 import io.pw.db.entity.Product;
+import io.pw.util.QueryParamParser;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -23,12 +24,7 @@ public class StoreNewProductHandler implements ResponseHandler {
     public byte[] handle() {
         try {
             String body = URLDecoder.decode(new String(requestBody.readAllBytes()), StandardCharsets.UTF_8);
-            String[] params = body.split("&");
-            JSONObject newProduct = new JSONObject();
-            for (String param : params) {
-                String[] paramAndValue = param.split("=");
-                newProduct.put(paramAndValue[0], paramAndValue[1]);
-            }
+            JSONObject newProduct = QueryParamParser.parseQueryString(body);
             Product product = new Product(
                     newProduct.getString("name"),
                     newProduct.getString("desc"),
@@ -41,4 +37,5 @@ public class StoreNewProductHandler implements ResponseHandler {
             throw new RuntimeException(ex);
         }
     }
+
 }

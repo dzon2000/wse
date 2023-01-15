@@ -68,4 +68,18 @@ public class ProductRepository implements Repository<Product> {
 		}
 	}
 
+	@Override
+	public void update(Product product) {
+		try (final PreparedStatement statement = conn.prepareStatement("UPDATE product SET name = ?, desc = ?, serial = ?, qty = ? WHERE id = ?")) {
+			statement.setString(1, product.getName());
+			statement.setString(2, product.getDesc());
+			statement.setString(3, product.getSerial());
+			statement.setInt(4, product.getQty());
+			statement.setLong(5, product.getId());
+			statement.executeUpdate();
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
 }

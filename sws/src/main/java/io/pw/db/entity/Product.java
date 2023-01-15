@@ -1,7 +1,6 @@
 package io.pw.db.entity;
 
 import io.pw.data.Transformer;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**

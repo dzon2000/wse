@@ -11,5 +11,6 @@ public interface Repository<T> {
 	List<T> findAll();
 	Optional<T> findById(Long id);
 	void store(T t);
+	void update(T t);
 
 }

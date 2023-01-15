@@ -20,7 +20,10 @@ public class MainPageHandler implements ResponseHandler {
                     <td>$name</td>
                     <td>$desc</td>
                     <td>$serial</td>
-                    <td>$qty</td>
+                    <td id="qty-$id">$qty</td>
+                    <td>
+                        <button type="submit" onclick="reduce($id)" class="btn btn-primary">Reduce</button>
+                    </td>
                 </tr>
             """;
     @Override
@@ -28,10 +31,23 @@ public class MainPageHandler implements ResponseHandler {
         try {
             String template = Files.readString(Path.of(WebServer.CONTENT_ROOT, "index.html"));
             String products = translateToHTML();
-            return template.replace("<productData />", products).getBytes();
+            return template.replace("<productData />", products)
+                    .replace("<message />", getMessage()).getBytes();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private CharSequence getMessage() {
+        if (WebServer.message.isEmpty()) {
+            return "";
+        }
+        return String.format("""
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>%s</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                """, WebServer.message);
     }
 
     private String translateToHTML() {
@@ -43,7 +59,8 @@ public class MainPageHandler implements ResponseHandler {
                     .replace("$name", product.getName())
                     .replace("$desc", product.getDesc())
                     .replace("$serial", product.getSerial())
-                    .replace("$qty", String.valueOf(product.getQty()));
+                    .replace("$qty", String.valueOf(product.getQty()))
+                    .replace("$id", String.valueOf(product.getId()));
             products.append(row);
         }
         return products.toString();

@@ -7,7 +7,6 @@ import org.json.JSONObject;
  */
 public class QueryParamParser {
 
-
 	public static JSONObject parseQueryString(String body) {
 		String[] params = body.split("&");
 		JSONObject newProduct = new JSONObject();

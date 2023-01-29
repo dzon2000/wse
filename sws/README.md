@@ -118,3 +118,21 @@ while (resultSet.next()){
 |Łatwy do nauczenia||
 ## Warstwa aplikacji
 Do obsługi aplikacji WEB-owej użyty zostanie `HttpServer` dostępny w JDK. Jest to proste narzędzie do budowania aplikacji obsługujących żądania HTTP.
+
+## Zaliczenie
+Dodanie funkcjonalności usuwania produktów z bazy danych. 
+* Dodanie przycisku do kolumny Akcji (Delete)
+  * Dodanie obsługi przycisku za pomocą formularza (POST)
+* Dodanie obsługi formularza
+  * Na podstawie id usunięcie produktu z bazy
+  * Dodanie metody `delete` do `ProductRepository`
+
+1. Dodaj przycisk do klasy `MainPageHandler`. Chodzi o podanie kodu HTML, który zostanie wstrzyknięty do pliku `index.hml`
+   1. Formularz powinien mieć jako `action` wpisane `/delete`
+   2. Formularz przesyłamy metodą `POST`
+2. Dodaj obsługę endpointu `/delete` w klasie `WebServer`
+3. Dodaj nową klasę handlera obsługującą usuwanie. Klasa musi implementować interfejs `ResponseHandler`
+   1. Handler powinine pobrać `id` produktu przesłanego przez formularz
+   2. Na podstawie `id` usuwamy produkt z bazy (zapytanie `DELETE`)
+4. Dodaj definicję metody `void delete(T t);` do interfejsu `Repository`
+5. Dodaj implementację metody `delete` w klasie `ProductRepository`

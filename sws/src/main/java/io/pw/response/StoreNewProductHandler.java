@@ -26,6 +26,7 @@ public class StoreNewProductHandler implements ResponseHandler {
             String body = URLDecoder.decode(new String(requestBody.readAllBytes()), StandardCharsets.UTF_8);
             JSONObject newProduct = QueryParamParser.parseQueryString(body);
             Product product = new Product(
+                    -1,
                     newProduct.getString("name"),
                     newProduct.getString("desc"),
                     newProduct.getString("serial"),

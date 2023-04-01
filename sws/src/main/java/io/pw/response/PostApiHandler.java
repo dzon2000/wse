@@ -23,6 +23,7 @@ public class PostApiHandler implements ResponseHandler {
             String requestProduct = new String(requestBody.readAllBytes());
             final JSONObject productJSON = new JSONObject(requestProduct);
             Product product = new Product(
+                    -1,
                     productJSON.getString("name"),
                     productJSON.getString("desc"),
                     productJSON.getString("serial"),

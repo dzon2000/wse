@@ -56,11 +56,11 @@ public class MainPageHandler implements ResponseHandler {
         for (int i = 0; i < allProducts.size(); i++) {
             Product product = allProducts.get(i);
             String row = ROW_TEMPLATE.replace("$no", String.valueOf(i + 1))
-                    .replace("$name", product.getName())
-                    .replace("$desc", product.getDesc())
-                    .replace("$serial", product.getSerial())
-                    .replace("$qty", String.valueOf(product.getQty()))
-                    .replace("$id", String.valueOf(product.getId()));
+                    .replace("$name", product.name())
+                    .replace("$desc", product.desc())
+                    .replace("$serial", product.serial())
+                    .replace("$qty", String.valueOf(product.qty()))
+                    .replace("$id", String.valueOf(product.id()));
             products.append(row);
         }
         return products.toString();

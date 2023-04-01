@@ -1,5 +1,8 @@
 package io.pw.db;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +14,8 @@ import java.sql.Statement;
  * Created by pwykowski
  */
 public class DBConnection {
+
+	private static final Logger logger = LogManager.getLogger(DBConnection.class);
 
 	private static Connection connection;
 
@@ -46,7 +51,8 @@ public class DBConnection {
 						('PlayStation 5', 'With a VR set', '0910-131', 98),
 						('Samsung S22 Ultra', 'Has a great camera', '0011-111', 99)
 					""").executeUpdate();
-			System.out.printf(">>%d rows added...", updateCount);
+
+			logger.info("{} rows added...", updateCount);
 
 //			Statement st = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 //			final ResultSet resultSet = st.executeQuery("SELECT * FROM product WHERE name='PlayStation 5'");

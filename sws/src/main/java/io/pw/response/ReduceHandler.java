@@ -28,15 +28,15 @@ public class ReduceHandler implements ResponseHandler {
 		if (optionalProduct.isEmpty())
 			return new byte[0];
 		final Product product = optionalProduct.get();
-		if (product.getQty() == 1) {
+		if (product.qty() == 1) {
 			return "Quantity too low".getBytes();
 		}
-		final int newQty = product.getQty() - 1;
+		final int newQty = product.qty() - 1;
 		repository.update(new Product(
-				product.getId(),
-				product.getName(),
-				product.getDesc(),
-				product.getSerial(),
+				product.id(),
+				product.name(),
+				product.desc(),
+				product.serial(),
 				newQty
 		));
 		return String.valueOf(newQty).getBytes();

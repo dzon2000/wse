@@ -10,10 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Created by pwykowski
  */
 public class ProductRepository implements Repository<Product> {
+
+	private static final Logger logger = LogManager.getLogger(ProductRepository.class);
 
 	private final Connection conn = DBConnection.connect();
 
@@ -58,12 +63,13 @@ public class ProductRepository implements Repository<Product> {
 	@Override
 	public void store(Product product) {
 		try (final PreparedStatement statement = conn.prepareStatement("INSERT INTO product (name, desc, serial, qty) VALUES (?, ?, ?, ?)")) {
-			statement.setString(1, product.getName());
-			statement.setString(2, product.getDesc());
-			statement.setString(3, product.getSerial());
-			statement.setInt(4, product.getQty());
+			statement.setString(1, product.name());
+			statement.setString(2, product.desc());
+			statement.setString(3, product.serial());
+			statement.setInt(4, product.qty());
 			statement.executeUpdate();
 		} catch (SQLException ex) {
+			logger.error("Unable to store new product: {}, {}, {}, {}. Error message: {}", product.name(), product.desc(), product.serial(), product.qty(), ex.getMessage());
 			throw new RuntimeException(ex);
 		}
 	}
@@ -71,11 +77,11 @@ public class ProductRepository implements Repository<Product> {
 	@Override
 	public void update(Product product) {
 		try (final PreparedStatement statement = conn.prepareStatement("UPDATE product SET name = ?, desc = ?, serial = ?, qty = ? WHERE id = ?")) {
-			statement.setString(1, product.getName());
-			statement.setString(2, product.getDesc());
-			statement.setString(3, product.getSerial());
-			statement.setInt(4, product.getQty());
-			statement.setLong(5, product.getId());
+			statement.setString(1, product.name());
+			statement.setString(2, product.desc());
+			statement.setString(3, product.serial());
+			statement.setInt(4, product.qty());
+			statement.setLong(5, product.id());
 			statement.executeUpdate();
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex);

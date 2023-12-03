@@ -1,21 +1,24 @@
 package io.pw;
 
 import com.sun.net.httpserver.HttpServer;
+import io.pw.db.DBConnection;
 import io.pw.handler.ResponseHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Created by pwykowski
  */
 public class WarehouseApplication {
 
+	// https://github.com/dzon2000/wse
+
 	public static final String CONTENT_ROOT = "src/main/resources";
 
 	public static void main(String[] args) throws IOException {
+		DBConnection.initDB();
 		final HttpServer httpServer = HttpServer.create(new InetSocketAddress(8000), 0);
 
 		httpServer.createContext("/", (httpExchange) -> {

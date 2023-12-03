@@ -23,13 +23,15 @@ public class MainPageHandler implements ResponseHandler {
                 </tr>
             """;
 
+	private final ProductRepository productRepository = new ProductRepository();
+
 	@Override
 	public byte[] handle() {
 		try {
 			String template = Files.readString(Path.of(WarehouseApplication.CONTENT_ROOT, "index.html"));
 
 			StringBuilder data = new StringBuilder("""
-     			<table border=1>
+     			<table class="table table-striped">
      				<tr>
      					<th>Id</th>
      					<th>Name</th>
@@ -38,7 +40,7 @@ public class MainPageHandler implements ResponseHandler {
      					<th>Quantity</th>
      				</tr>
 					""");
-			ProductRepository.PRODUCTS.forEach((product -> {
+			productRepository.findAll().forEach((product -> {
 				data.append(
 						ROW_TEMPLATE.replace("$id", String.valueOf(product.id()))
 								.replace("$name", product.name())

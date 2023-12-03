@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class AddNewProductHandler implements ResponseHandler {
 
 	private final InputStream requestBody;
+	private final ProductRepository productRepository = new ProductRepository();
 
 	public AddNewProductHandler(InputStream requestBody) {
 		this.requestBody = requestBody;
@@ -25,7 +26,7 @@ public class AddNewProductHandler implements ResponseHandler {
 		try {
 			String body = URLDecoder.decode(new String(requestBody.readAllBytes()), StandardCharsets.UTF_8);
 			final Product product = FormBodyParser.fromFormBody(body);
-			ProductRepository.PRODUCTS.add(product);
+			productRepository.store(product);
 			return "OK".getBytes(StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class APIHandler implements ResponseHandler {
 
+	private ProductRepository productRepository = new ProductRepository();
+
 	/*
 
 		{
@@ -29,7 +31,7 @@ public class APIHandler implements ResponseHandler {
 	public byte[] handle() {
 		JSONObject data = new JSONObject();
 		JSONArray products = new JSONArray();
-		ProductRepository.PRODUCTS.forEach(product -> {
+		productRepository.findAll().forEach(product -> {
 			JSONObject productJSON = new JSONObject();
 			productJSON.put("id", product.id());
 			productJSON.put("name", product.name());

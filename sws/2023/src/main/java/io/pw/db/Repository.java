@@ -9,8 +9,10 @@ import java.util.Optional;
 public interface Repository<T> {
 
 	List<T> findAll();
+	List<T> findAllPaginate(int limit, int offset);
 	Optional<T> findById(long id);
 	void store(T t);
 	void update(T t);
+	T deleteById(long id);
 
 }

@@ -2,6 +2,8 @@ package io.pw.handler;
 
 import io.pw.WarehouseApplication;
 import io.pw.db.ProductRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +15,7 @@ import java.nio.file.Path;
  */
 public class MainPageHandler implements ResponseHandler {
 
+	private static final Logger logger = LogManager.getLogger(MainPageHandler.class);
 	private static final String ROW_TEMPLATE = """
                 <tr>
                     <td>$id</td>
@@ -55,6 +58,7 @@ public class MainPageHandler implements ResponseHandler {
 
 			return response.getBytes(StandardCharsets.UTF_8);
 		} catch (IOException e) {
+			logger.error("Could not find the index.html template", e);
 			throw new RuntimeException(e);
 		}
 	}

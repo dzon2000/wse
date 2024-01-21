@@ -3,6 +3,8 @@ package io.pw.handler;
 import io.pw.db.Product;
 import io.pw.db.ProductRepository;
 import io.pw.http.FormBodyParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +16,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class AddNewProductHandler implements ResponseHandler {
 
+	private static final Logger logger = LogManager.getLogger(MainPageHandler.class);
+
 	private final InputStream requestBody;
 	private final ProductRepository productRepository = new ProductRepository();
 
@@ -23,12 +27,14 @@ public class AddNewProductHandler implements ResponseHandler {
 
 	@Override
 	public byte[] handle() {
+		logger.info("Adding new product to db...");
 		try {
 			String body = URLDecoder.decode(new String(requestBody.readAllBytes()), StandardCharsets.UTF_8);
 			final Product product = FormBodyParser.fromFormBody(body);
 			productRepository.store(product);
 			return "OK".getBytes(StandardCharsets.UTF_8);
 		} catch (IOException e) {
+			logger.error("Could not extract all bytes from request body", e);
 			throw new RuntimeException(e);
 		}
 	}

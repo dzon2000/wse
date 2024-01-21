@@ -38,6 +38,30 @@ public class ProductRepository implements Repository<Product> {
 	}
 
 	@Override
+	public List<Product> findAllPaginate(int limit, int offset) {
+		try {
+			List<Product> result = new ArrayList<>();
+			final PreparedStatement preparedStatement = conn.prepareStatement("SELECT id, name, desc, serial, qty FROM product LIMIT ? OFFSET ?");
+			preparedStatement.setInt(1, limit);
+			preparedStatement.setInt(2, offset);
+			final ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				final long id = resultSet.getLong("id");
+				final String name = resultSet.getString("name");
+				final String desc = resultSet.getString("desc");
+				final String serial = resultSet.getString("serial");
+				final int qty = resultSet.getInt("qty");
+				result.add(new Product(
+						id, name, desc, serial, qty
+				));
+			}
+			return Collections.unmodifiableList(result);
+		} catch (SQLException e) {
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
 	public Optional<Product> findById(long id) {
 		try {
 			final PreparedStatement preparedStatement = conn.prepareStatement("SELECT id, name, desc, serial, qty FROM product WHERE id = ?");
@@ -89,6 +113,19 @@ public class ProductRepository implements Repository<Product> {
 			preparedStatement.executeUpdate();
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
+		}
+	}
+
+	public Product deleteById(long id) {
+		try {
+			final Product product = findById(id).orElseThrow();
+			final PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM product WHERE id = ?");
+			preparedStatement.setLong(1, product.id());
+
+			preparedStatement.executeUpdate();
+			return product;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

@@ -26,6 +26,7 @@ public class WarehouseApplication {
 			final HttpServer httpServer = HttpServer.create(new InetSocketAddress(8000), 0);
 
 			httpServer.createContext("/", (httpExchange) -> {
+				logger.info("{} {} {}", httpExchange.getRequestMethod(), httpExchange.getRemoteAddress(), httpExchange.getRequestURI());
 				final ResponseHandler handler = ResponseHandler.ofPath("/", httpExchange);
 				final byte[] response = handler.handle();
 				final OutputStream os = httpExchange.getResponseBody();
@@ -35,7 +36,7 @@ public class WarehouseApplication {
 			});
 
 			httpServer.createContext("/add", (httpExchange) -> {
-				logger.info("Got request for /add with HTTP method: " + httpExchange.getRequestMethod());
+				logger.info("{} {} {}", httpExchange.getRequestMethod(), httpExchange.getRemoteAddress(), httpExchange.getRequestURI());
 
 				final ResponseHandler handler = ResponseHandler.ofPath("/add", httpExchange);
 				final byte[] response = handler.handle();
@@ -51,6 +52,8 @@ public class WarehouseApplication {
 			});
 
 			httpServer.createContext("/api/product", (httpExchange) -> {
+				logger.info("{} {} {}", httpExchange.getRequestMethod(), httpExchange.getRemoteAddress(), httpExchange.getRequestURI());
+
 				final ResponseHandler handler = ResponseHandler.ofPath("/api/product", httpExchange);
 				httpExchange.getResponseHeaders().set("Content-Type", "application/json");
 				final OutputStream os = httpExchange.getResponseBody();

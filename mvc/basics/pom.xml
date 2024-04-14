@@ -25,6 +25,23 @@
 
     <build>
         <finalName>jakarta</finalName>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+        <plugins>
+        <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>11.0.20</version>
+            <configuration>
+                <webApp>
+                    <contextPath>/${project.build.finalName}</contextPath>
+                </webApp>
+                <stopKey>CTRL+C</stopKey>
+                <stopPort>8999</stopPort>
+                <supportedPackagings>jar</supportedPackagings>
+            </configuration>
+        </plugin>
+        </plugins>
+        </pluginManagement>
     </build>
 
 </project>
